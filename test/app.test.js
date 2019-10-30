@@ -55,3 +55,21 @@ describe('GET /sum', () => {
       .expect(400, 'values for a and b must b numbers');
   });
 });
+
+
+describe('GET /generate', () => {
+  it('should generate an array of 5', () => {
+    return supertest(app)
+      .get('/generate')
+      .query({n: 5})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        expect(res.body).to.be.an('array');
+        expect(res.body).to.have.lengthOf.at.least(1);
+        expect(res.body).to.have.members([1, 2, 3, 4, 5]);
+      });
+  });
+
+
+})
