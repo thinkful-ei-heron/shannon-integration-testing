@@ -10,6 +10,4 @@ describe('Express App testing', () => {
       .expect(200, 'hi express');
   });
 
-
-
 });
