@@ -9,5 +9,49 @@ describe('Express App testing', () => {
       .get('/')
       .expect(200, 'hi express');
   });
+});
 
+
+describe('GET /sum', () => {
+  it('8/4 should be 2', () => {
+    return supertest(app)
+      .get('/sum')
+      .query({a:8 , b:4 })
+      .expect(200, '8 divided by 4 is equal to: 2');
+  });
+
+  it('should return 400 if a is missing', () => {
+    return supertest(app)
+      .get('/sum')
+      .query({b:2})
+      .expect(400, 'value is needed for both a and b');
+  });
+
+  it('should return 400 if b is missing', () => {
+    return supertest(app)
+      .get('/sum')
+      .query({a:2})
+      .expect(400, 'value is needed for both a and b');
+  });
+
+  it('should return 400 if b is 0', () => {
+    return supertest(app)
+      .get('/sum')
+      .query({a:2, b:0})
+      .expect(400, 'b cannot be 0');
+  });
+
+  it('should return 400 if a is NaN', () => {
+    return supertest(app)
+      .get('/sum')
+      .query({a:'hi', b:0})
+      .expect(400, 'values for a and b must b numbers');
+  });
+
+  it('should return 400 if b is NaN', () => {
+    return supertest(app)
+      .get('/sum')
+      .query({a:2, b:'hi'})
+      .expect(400, 'values for a and b must b numbers');
+  });
 });
